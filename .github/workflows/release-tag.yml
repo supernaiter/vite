@@ -16,7 +16,7 @@ jobs:
     permissions:
       contents: write # for yyx990803/release-tag to create a release tag
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
       - name: Get pkgName for tag
         id: tag
@@ -41,7 +41,7 @@ jobs:
         # only run if tag is not alpha
         if: steps.tag.outputs.pkgName
         id: release_tag
-        uses: yyx990803/release-tag@master
+        uses: yyx990803/release-tag@8cccf7c5aa332d71d222df46677f70f77a8d2dc0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
