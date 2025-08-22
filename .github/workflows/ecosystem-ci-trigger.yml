@@ -15,7 +15,7 @@ jobs:
       contents: read # to clone the repo
     steps:
       - name: Check User Permissions
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         id: check-permissions
         with:
           script: |
@@ -56,7 +56,7 @@ jobs:
             }
 
       - name: Get PR Data
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         id: get-pr-data
         with:
           script: |
@@ -75,7 +75,7 @@ jobs:
             }
 
       - name: Check Package Existence
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         id: check-package
         with:
           script: |
@@ -99,7 +99,7 @@ jobs:
 
       - name: Generate Token
         id: generate-token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@a8d616148505b5069dccd32f177bb87d7f39123b
         with:
           app-id: ${{ secrets.ECOSYSTEM_CI_GITHUB_APP_ID }}
           private-key: ${{ secrets.ECOSYSTEM_CI_GITHUB_APP_PRIVATE_KEY }}
@@ -109,7 +109,7 @@ jobs:
 
       - name: Trigger Preview Release (if Package Not Found)
         if: fromJSON(steps.check-package.outputs.result).exists == false
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         id: trigger-preview-release
         with:
           github-token: ${{ steps.generate-token.outputs.token }}
@@ -128,7 +128,7 @@ jobs:
 
       - name: Wait for Preview Release Completion (if Package Not Found)
         if: fromJSON(steps.check-package.outputs.result).exists == false
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         id: wait-preview-release
         with:
           script: |
@@ -195,7 +195,7 @@ jobs:
             }
 
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         with:
           ref: refs/pull/${{ fromJSON(steps.get-pr-data.outputs.result).num }}/head
           fetch-depth: 0
@@ -214,7 +214,7 @@ jobs:
           fi
 
       - name: Trigger Downstream Workflow
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         id: trigger
         env:
           COMMENT: ${{ github.event.comment.body }}
